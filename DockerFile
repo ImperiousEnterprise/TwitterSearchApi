@@ -1,0 +1,13 @@
+FROM golang:latest
+
+RUN mkdir /app
+
+WORKDIR /go/src/app
+COPY . .
+
+RUN go-wrapper download   # "go get -d -v ./..."
+RUN go-wrapper install    # "go install -v ./..."
+
+ENTRYPOINT ["go-wrapper", "run", "*.go"]
+
+EXPOSE 8080
