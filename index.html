@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <script src="scripts/vue.min.js"></script>
+    <script src="scripts/vue-resource.js"></script>
+    <script src="scripts/moment.js"></script>
+    <script src="//twemoji.maxcdn.com/2/twemoji.min.js?2.3.1"></script>
+    <meta charset="UTF-8">
+    <title>TwitterApp</title>
+</head>
+<body>
+<div class="container h-100" id="vue-instance">
+    <h1 class="display-1 text-center">Twitter Api Search</h1>
+    <div class="row justify-content-center">
+        <div class="input-group">
+            <input v-model="text" v-on:keyup.enter="SearchTweets" type="text" class="form-control" placeholder="Search for...">
+            <span class="input-group-btn">
+                <button class="btn btn-secondary" type="button" v-on:click="SearchTweets">Search!</button>
+            </span>
+        </div>
+    </div>
+    <br>
+    <div v-if="tweets.length">
+        <div class="row border border-dark" v-for="tweet in tweets">
+            <div class="col-1"><img v-bind:src=" tweet.user.profile_image_url " class="rounded-circle float-left"></div>
+            <div class="col-11 row">
+                <div class="col-12" >
+                    <a style="color:black;" v-bind:href=" GenerateUserUrl(tweet.user.screen_name)"><b> ${tweet.user.name} </b><span>@${tweet.user.screen_name}  </span>
+                    </a><span v-html=SwitchToTimeAgo(tweet.created_at)></span>
+                </div>
+                <div class="col-12" style="font-size: 14px; font-family: Segoe UI,Arial,sans-serif;" v-html="$options.filters.highlight(tweet.full_text.length > 1 ? tweet.full_text: tweet.text, text)"></div>
+            </div>
+        </div>
+    </div>
+    <div v-if="errout.length">
+        <p class="row align-self-center"> ${ errout } </p>
+    </div>
+</div>
+</body>
+<script src="scripts/app.js"></script>
+</html>
