@@ -24,6 +24,7 @@ There two ways to run this project either locally or with dockers
 ```
 git clone https://github.com/ImperiousEnterprise/TwitterSearchApi.git
 cd /{directory where you saved this project}
+go get ./..
 go run *.go
 ```
 From here you can connect
