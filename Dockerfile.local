@@ -1,0 +1,13 @@
+FROM golang:1.11-alpine
+
+RUN apk add --no-cache ca-certificates git
+
+WORKDIR /go/src/app
+COPY . .
+
+RUN go get -d -v ./...   # "go get -d -v ./..."
+RUN go install -v ./...    # "go install -v ./..."
+
+RUN go get github.com/githubnemo/CompileDaemon
+
+ENTRYPOINT CompileDaemon -build="go build -o app ." -command="./app"

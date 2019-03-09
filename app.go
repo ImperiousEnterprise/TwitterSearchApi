@@ -34,7 +34,7 @@ func (a *App) activateRoutes() {
 	a.Router.HandleFunc("/search", status(403, "GET")).Methods("POST", "PATCH", "DELETE")
 
 	// Serve static assets directly.
-	a.Router.PathPrefix("/scripts").Handler(http.FileServer(http.Dir(".")))
+	a.Router.PathPrefix("/scripts/vue-resource.js").HandlerFunc(IndexHandler("./scripts/vue-resource.js")).Methods("GET")
 
 	// Set entry point to serve
 	a.Router.PathPrefix("/").HandlerFunc(IndexHandler(entry))
@@ -67,7 +67,6 @@ func SearchHandler(w http.ResponseWriter, r *http.Request){
 		Count: count ,
 		TweetMode: "extended",
 	})
-
 	log.Info("Response Status from Search: " + resp.Status)
 
 	if(err != nil){

@@ -24,11 +24,23 @@ var vm = new Vue({
             return words;
         }
     },
+    watch: {
+        text: function (val) {
+            if(val.length < 1){
+                this.tweets = [];
+            }
+        }
+    },
     methods:{
         SearchTweets: function (e){
             this.$http.get('/search?q=' + encodeURIComponent(this.text) +'&count=20')
-                .then( response => { this.tweets = response.data; this.errout=''; })
+                .then( response => { this.tweets = response.data; this.errout=''; this.SortByCreatedAt;})
                 .catch(err => {this.tweets = []; this.errout = err.body;});
+        },
+        SortByCreatedAt: function (){
+                this.tweets.sort(function(left, right){
+                    return moment(right.created_at).diff(moment(left.created_at)); // No more need to convert strings to dates
+            })
         },
         GenerateUserUrl: function (e){
             return "https://twitter.com/"+e;
@@ -36,18 +48,7 @@ var vm = new Vue({
         SwitchToTimeAgo: function (time) {
             if(!moment(time, 'ddd MMM DD HH:mm:ss ZZ YYYY', 'en').isValid()){
                 var MonthToNumber = {
-                    Jan: 0,
-                    Feb: 1,
-                    Mar: 2,
-                    Apr: 3,
-                    May: 4,
-                    Jun: 5,
-                    Jul: 6,
-                    Aug: 7,
-                    Sep: 8,
-                    Oct: 9,
-                    Nov: 10,
-                    Dec: 11
+                  //You need to create convert months to numbers
                 };
                var split = time.split(" ");
                var spliTime = split[3].split(":");
