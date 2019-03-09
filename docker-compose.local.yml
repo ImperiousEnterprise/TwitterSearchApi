@@ -8,4 +8,4 @@ services:
     ports:
     - "8080:8080"
     volumes:
-      - C:\Users\Mr.F\IdeaProjects\Twitter:/go/src/app
+      - ${PUT PATH TO PROJECT HERE}:/go/src/app
